@@ -1,22 +1,20 @@
-import React, {useState} from 'react';
-import SortDropdownMenu from './SortDropdownMenu';
+import React, { useState } from 'react'
+import SortDropdownMenu from './SortDropdownMenu'
 
-const TopSort = (
-  { selectedSort, setSelectedSort, isDesc, setIsDesc }
-) => {
+const TopSort = ({ selectedSort, setSelectedSort, isDesc, setIsDesc }) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
   const sortList = [
-    {name: 'популярности', sortProperty: 'rating' },
-    {name: 'цене', sortProperty: 'price' },
-    {name: 'алфавиту', sortProperty: 'title' },
+    { name: 'популярности', sortProperty: 'rating' },
+    { name: 'цене', sortProperty: 'price' },
+    { name: 'алфавиту', sortProperty: 'title' },
   ]
 
   return (
     <div className="sort">
       <div className="sort__label">
         <svg
-          className={ isDesc ? 'order-selected' : ''}
-          onClick={ () => setIsDesc(prev => !prev) }
+          className={isDesc ? 'order-selected' : ''}
+          onClick={() => setIsDesc((prev) => !prev)}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -29,18 +27,23 @@ const TopSort = (
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onBlur={() => setIsDropdownVisible(false)} onClick={ () => setIsDropdownVisible((prevState => !prevState)) }>{ selectedSort.name }</span>
+        <span
+          onBlur={() => setIsDropdownVisible(false)}
+          onClick={() => setIsDropdownVisible((prevState) => !prevState)}
+        >
+          {selectedSort.name}
+        </span>
       </div>
-      {
-        isDropdownVisible &&
-        <SortDropdownMenu sortList={ sortList }
-                          selectedSort={ selectedSort }
-                          setSelectedSort={ setSelectedSort }
-                          setIsDropdownVisible={ setIsDropdownVisible }
+      {isDropdownVisible && (
+        <SortDropdownMenu
+          sortList={sortList}
+          selectedSort={selectedSort}
+          setSelectedSort={setSelectedSort}
+          setIsDropdownVisible={setIsDropdownVisible}
         />
-      }
+      )}
     </div>
-  );
-};
+  )
+}
 
-export default TopSort;
+export default TopSort

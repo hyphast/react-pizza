@@ -1,24 +1,29 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import PizzaLogoImg from '../assets/img/pizza-logo.svg'
+import Search from './Search'
+import { SearchContext } from '../SearchContextWrapper'
 
-const Header = () => {
+function Header() {
+  const { searchValue, setSearchValue } = useContext(SearchContext)
+
   return (
     <div className="header">
       <div className="container">
-        <Link to='/'>
+        <Link to="/">
           <div className="header__logo">
-            <img width="38" src={PizzaLogoImg} alt="Pizza logo"/>
+            <img width="38" src={PizzaLogoImg} alt="Pizza logo" />
             <div>
               <h1>React Pizza</h1>
               <p>самая вкусная пицца во вселенной</p>
             </div>
           </div>
         </Link>
+        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>
-            <div className="button__delimiter"></div>
+            <div className="button__delimiter" />
             <svg
               width="18"
               height="18"
@@ -53,7 +58,7 @@ const Header = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

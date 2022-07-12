@@ -1,8 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-const SortDropdownMenu = (
-  { sortList, selectedSort, setSelectedSort, setIsDropdownVisible }
-) => {
+const SortDropdownMenu = ({
+  sortList,
+  selectedSort,
+  setSelectedSort,
+  setIsDropdownVisible,
+}) => {
   const handleSort = (sort) => {
     setSelectedSort(sort)
     setIsDropdownVisible(false)
@@ -11,17 +14,22 @@ const SortDropdownMenu = (
   return (
     <div className="sort__popup">
       <ul>
-        {sortList.map(sort => (
-          <li key={ sort.sortProperty }
-              className={ selectedSort.sortProperty === sortList.sortProperty ? 'active' : '' }
-              onClick={ () => handleSort(sort) }
+        {sortList.map((sort) => (
+          <li
+            key={sort.sortProperty}
+            className={
+              selectedSort.sortProperty === sortList.sortProperty
+                ? 'active'
+                : ''
+            }
+            onClick={() => handleSort(sort)}
           >
-            { sort.name }
+            {sort.name}
           </li>
         ))}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default SortDropdownMenu;
+export default SortDropdownMenu

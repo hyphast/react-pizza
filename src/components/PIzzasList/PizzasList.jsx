@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import Categories from './Categories';
-import PizzaBlockSkeleton from './PizzaBlock/PizzaBlockSkeleton';
-import PizzaBlock from './PizzaBlock/PizzaBlock';
-import TopSort from './TopSort';
+import React, { useContext, useEffect, useState } from 'react'
+import Categories from '../Categories'
+import TopSort from '../TopSort'
+import Pagination from '../Pagination/Pagination'
+import PizzasItems from './PizzasItems'
+import { SearchContext } from '../../SearchContextWrapper'
 
 const PizzasList = () => {
+  const { searchValue } = useContext(SearchContext)
   const [pizzaData, setPizzaData] = useState([])
   const [isDataLoading, setIsDataLoading] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState(0)
@@ -13,25 +15,38 @@ const PizzasList = () => {
     sortProperty: 'rating',
   })
   const [isDesc, setIsDesc] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(4)
 
   useEffect(() => {
     setIsDataLoading(true)
-    const catFilter = selectedCategory === 0 ? '' : `category=${ selectedCategory }`
+    const catFilter =
+      selectedCategory === 0 ? '' : `&category=${selectedCategory}`
+    const search = searchValue ? `&search=${searchValue}` : ''
     const curSort = selectedSort.sortProperty
     const order = isDesc ? 'desc' : 'asc'
-    fetch(`https://62ac65d69fa81d00a7b0fb83.mockapi.io/api/pizzas?${ catFilter }&sortBy=${ curSort }&order=${ order }`)
-      .then((res => {
+    fetch(
+      `https://62ac65d69fa81d00a7b0fb83.mockapi.io/api/pizzas?page=${currentPage}&limit=${pageSize}${catFilter}&sortBy=${curSort}&order=${order}${search}`
+    )
+      .then((res) => {
         return res.json()
-      }))
-      .then((data => {
+      })
+      .then((data) => {
         setPizzaData(data)
         setIsDataLoading(false)
         // console.log(data)
-      }))
+      })
       .finally(() => {
         setIsDataLoading(false)
       })
-  }, [selectedCategory, selectedSort, isDesc])
+  }, [
+    selectedCategory,
+    selectedSort.sortProperty,
+    isDesc,
+    searchValue,
+    currentPage,
+    pageSize,
+  ])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -53,18 +68,17 @@ const PizzasList = () => {
           />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        <div className="content__items">
-          {isDataLoading
-            ?
-            [...new Array(8)].map((_, i) => <PizzaBlockSkeleton key={ i } />)
-            :
-            pizzaData.map(data => (
-              <PizzaBlock key={ data.id } { ...data }/>
-            ))}
-        </div>
+        <PizzasItems isDataLoading={isDataLoading} pizzaData={pizzaData} />
+        <Pagination
+          totalCount={10}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+        />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PizzasList;
+export default PizzasList
