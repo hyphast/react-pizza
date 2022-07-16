@@ -19,8 +19,7 @@ const filterSlice = createSlice({
     setSort(state, action) {
       state.sort = {
         ...state.sort,
-        sortProperty: action.payload.sortProperty,
-        name: action.payload.name,
+        ...action.payload,
       }
     },
     toggleSortOrder(state, action) {

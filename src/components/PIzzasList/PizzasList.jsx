@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import axios from 'axios'
 import Categories from '../Categories'
 import TopSort from '../TopSort'
 import Pagination from '../Pagination/Pagination'
@@ -24,14 +25,12 @@ const PizzasList = () => {
     const search = searchValue ? `&search=${searchValue}` : ''
     const curSort = sortProperty
     const order = isDesc ? 'desc' : 'asc'
-    fetch(
-      `https://62ac65d69fa81d00a7b0fb83.mockapi.io/api/pizzas?page=${currentPage}&limit=${pageSize}${catFilter}&sortBy=${curSort}&order=${order}${search}`
-    )
+    axios
+      .get(
+        `https://62ac65d69fa81d00a7b0fb83.mockapi.io/api/pizzas?page=${currentPage}&limit=${pageSize}${catFilter}&sortBy=${curSort}&order=${order}${search}`
+      )
       .then((res) => {
-        return res.json()
-      })
-      .then((data) => {
-        setPizzaData(data)
+        setPizzaData(res.data)
         setIsDataLoading(false)
       })
       .finally(() => {
