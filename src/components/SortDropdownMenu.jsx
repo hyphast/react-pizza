@@ -1,13 +1,12 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSort } from '../redux/filterSlice/filterSlice'
 
-const SortDropdownMenu = ({
-  sortList,
-  selectedSort,
-  setSelectedSort,
-  setIsDropdownVisible,
-}) => {
+const SortDropdownMenu = ({ sortList, setIsDropdownVisible }) => {
+  const dispatch = useDispatch()
+  const selectedSort = useSelector((state) => state.filter.sort)
   const handleSort = (sort) => {
-    setSelectedSort(sort)
+    dispatch(setSort(sort))
     setIsDropdownVisible(false)
   }
 
@@ -23,6 +22,7 @@ const SortDropdownMenu = ({
                 : ''
             }
             onClick={() => handleSort(sort)}
+            onKeyDown={() => handleSort(sort)}
           >
             {sort.name}
           </li>

@@ -1,20 +1,24 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import SortDropdownMenu from './SortDropdownMenu'
+import { toggleSortOrder } from '../redux/filterSlice/filterSlice'
 
-const TopSort = ({ selectedSort, setSelectedSort, isDesc, setIsDesc }) => {
+const sortList = [
+  { name: 'популярности', sortProperty: 'rating' },
+  { name: 'цене', sortProperty: 'price' },
+  { name: 'алфавиту', sortProperty: 'title' },
+]
+
+const TopSort = ({ sortName, isDesc }) => {
+  const dispatch = useDispatch()
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
-  const sortList = [
-    { name: 'популярности', sortProperty: 'rating' },
-    { name: 'цене', sortProperty: 'price' },
-    { name: 'алфавиту', sortProperty: 'title' },
-  ]
 
   return (
     <div className="sort">
       <div className="sort__label">
         <svg
           className={isDesc ? 'order-selected' : ''}
-          onClick={() => setIsDesc((prev) => !prev)}
+          onClick={() => dispatch(toggleSortOrder(!isDesc))}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -28,17 +32,17 @@ const TopSort = ({ selectedSort, setSelectedSort, isDesc, setIsDesc }) => {
         </svg>
         <b>Сортировка по:</b>
         <span
+          role="complementary"
           onBlur={() => setIsDropdownVisible(false)}
           onClick={() => setIsDropdownVisible((prevState) => !prevState)}
+          onKeyDown={() => setIsDropdownVisible((prevState) => !prevState)}
         >
-          {selectedSort.name}
+          {sortName}
         </span>
       </div>
       {isDropdownVisible && (
         <SortDropdownMenu
           sortList={sortList}
-          selectedSort={selectedSort}
-          setSelectedSort={setSelectedSort}
           setIsDropdownVisible={setIsDropdownVisible}
         />
       )}
