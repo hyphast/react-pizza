@@ -22,12 +22,11 @@ const PizzasList = () => {
     setIsDataLoading(true)
     const catFilter =
       selectedCategory === 0 ? '' : `&category=${selectedCategory}`
-    const search = searchValue ? `&search=${searchValue}` : ''
-    const curSort = sortProperty
+    const search = searchValue ? `&title_like=${searchValue}` : ''
     const order = isDesc ? 'desc' : 'asc'
     axios
       .get(
-        `https://62ac65d69fa81d00a7b0fb83.mockapi.io/api/pizzas?page=${currentPage}&limit=${pageSize}${catFilter}&sortBy=${curSort}&order=${order}${search}`
+        `http://localhost:3002/pizzas?_page=${currentPage}&_limit=${pageSize}${catFilter}&_sort=${sortProperty}&_order=${order}${search}`
       )
       .then((res) => {
         setPizzaData(res.data)
