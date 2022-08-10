@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import SortDropdownMenu from './SortDropdownMenu'
 import { toggleSortOrder } from '../redux/filterSlice/filterSlice'
 
-const sortList = [
+export const sortList = [
   { name: 'популярности', sortProperty: 'rating' },
   { name: 'цене', sortProperty: 'price' },
   { name: 'алфавиту', sortProperty: 'title' },

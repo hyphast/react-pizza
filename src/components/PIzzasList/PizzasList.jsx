@@ -1,24 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import qs from 'qs'
 import Categories from '../Categories'
-import TopSort from '../TopSort'
+import TopSort, { sortList } from '../TopSort'
 import Pagination from '../Pagination/Pagination'
 import PizzasItems from './PizzasItems'
 import { SearchContext } from '../../SearchContextWrapper'
+import { setFilters } from '../../redux/filterSlice/filterSlice'
 
 const PizzasList = () => {
-  const { category: selectedCategory, sort } = useSelector(
-    (state) => state.filter
-  )
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const {
+    category: selectedCategory,
+    sort,
+    currentPage,
+    pageSize,
+  } = useSelector((state) => state.filter)
   const { sortProperty, name: sortName, isDesc } = sort
   const { searchValue } = useContext(SearchContext)
   const [pizzaData, setPizzaData] = useState([])
   const [isDataLoading, setIsDataLoading] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(4)
+  const isMounted = useRef(false)
+  const isSearch = useRef(false)
 
-  useEffect(() => {
+  const fetchPizzas = () => {
     setIsDataLoading(true)
     const catFilter =
       selectedCategory === 0 ? '' : `&category=${selectedCategory}`
@@ -35,6 +43,44 @@ const PizzasList = () => {
       .finally(() => {
         setIsDataLoading(false)
       })
+  }
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        category: selectedCategory,
+        sort: sortProperty,
+        order: isDesc,
+        page: currentPage,
+        pageSize,
+      })
+      navigate(`?${queryString}`)
+    }
+    isMounted.current = true
+  }, [selectedCategory, sortProperty, isDesc, currentPage, pageSize])
+
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.slice(1))
+
+      const { page, order, ...rest } = params
+
+      const currentSort = sortList.find(
+        (item) => item.sortProperty === params.sort
+      )
+      currentSort.isDesc = order === 'true'
+
+      dispatch(setFilters({ ...rest, currentPage: page, sort: currentSort }))
+      isSearch.current = true
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isSearch.current) {
+      fetchPizzas()
+    }
+
+    isSearch.current = false
   }, [
     selectedCategory,
     sortProperty,
@@ -60,9 +106,7 @@ const PizzasList = () => {
         <Pagination
           totalCount={10}
           currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
           pageSize={pageSize}
-          setPageSize={setPageSize}
         />
       </div>
     </div>

@@ -1,13 +1,26 @@
-import React, { useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import classnames from 'classnames'
+import { debounce } from '../../utils/debounce'
 import styles from './Search.module.scss'
 
 const Search = ({ searchValue, setSearchValue }) => {
   const inputRef = useRef()
+  const [inputValue, setInputValue] = useState('')
 
   const clearInput = () => {
     setSearchValue('')
+    setInputValue('')
     inputRef.current.focus()
+  }
+
+  const debounceInput = useCallback(
+    debounce((val) => setSearchValue(val), 350),
+    []
+  )
+
+  const onChangeInput = (e) => {
+    setInputValue(e.target.value)
+    debounceInput(e.target.value)
   }
 
   return (
@@ -21,8 +34,8 @@ const Search = ({ searchValue, setSearchValue }) => {
           [styles.filledInput]: !!searchValue,
         })}
         placeholder="Поиск пиццы..."
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        value={inputValue}
+        onChange={onChangeInput}
       />
       {searchValue && (
         <svg

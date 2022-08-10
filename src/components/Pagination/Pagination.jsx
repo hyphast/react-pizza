@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import styles from './Pagination.module.scss'
 import usePagination from './usePagination'
+import {
+  setCurrentPage,
+  setPageSize,
+} from '../../redux/filterSlice/filterSlice'
 
 const Pagination = ({
   totalCount,
   currentPage,
-  setCurrentPage,
   pageSize,
-  setPageSize,
   siblingCount = 2,
 }) => {
+  const dispatch = useDispatch()
   const [pagination, totalPageCount] = usePagination({
     totalCount,
     currentPage,
@@ -19,17 +23,17 @@ const Pagination = ({
 
   const onMoveLeft = () => {
     if (currentPage < 2) return
-    setCurrentPage(currentPage - 1)
+    dispatch(setCurrentPage(currentPage - 1))
   }
 
   const onMoveRight = () => {
     if (currentPage > totalPageCount - 1) return
-    setCurrentPage(currentPage + 1)
+    dispatch(setCurrentPage(currentPage + 1))
   }
 
   const onChangePageSize = (e) => {
-    setPageSize(e.target.value)
-    setCurrentPage(1)
+    dispatch(setCurrentPage(1))
+    dispatch(setPageSize(e.target.value))
   }
 
   return (
@@ -52,7 +56,10 @@ const Pagination = ({
             className={item === currentPage ? styles.selected : ''}
             key={item}
           >
-            <button type="button" onClick={() => setCurrentPage(item)}>
+            <button
+              type="button"
+              onClick={() => dispatch(setCurrentPage(item))}
+            >
               {item}
             </button>
           </li>
