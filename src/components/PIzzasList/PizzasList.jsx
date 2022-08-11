@@ -76,7 +76,7 @@ const PizzasList = () => {
   }, [])
 
   useEffect(() => {
-    if (!isSearch.current) {
+    if (!isSearch.current || (isSearch.current && selectedCategory === 0)) {
       fetchPizzas()
     }
 

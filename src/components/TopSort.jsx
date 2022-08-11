@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import SortDropdownMenu from './SortDropdownMenu'
 import { toggleSortOrder } from '../redux/filterSlice/filterSlice'
@@ -12,9 +12,20 @@ export const sortList = [
 const TopSort = ({ sortName, isDesc }) => {
   const dispatch = useDispatch()
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
+  const sortRef = useRef()
+
+  useEffect(() => {
+    const onClickOutside = (event) => {
+      if (!event.path.includes(sortRef.current)) {
+        setIsDropdownVisible(false)
+      }
+    }
+    document.body.addEventListener('click', onClickOutside)
+    return () => document.body.removeEventListener('click', onClickOutside)
+  }, [])
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           className={isDesc ? 'order-selected' : ''}
