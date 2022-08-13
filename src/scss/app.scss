@@ -22,7 +22,19 @@ body {
 }
 
 .content {
-  padding: 40px 0;
+  padding: 70px 0;
+
+  &__error {
+    margin: 55px auto;
+    text-align: center;
+    h2 {
+      font-weight: 700;
+    }
+    p {
+      font-size: 17px;
+      line-height: 40px;
+    }
+  }
 
   &__title {
     margin: 35px 0;

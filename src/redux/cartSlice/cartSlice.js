@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   items: [],
@@ -62,6 +62,18 @@ const cartSlice = createSlice({
     },
   },
 })
+
+export const selectCart = (state) => state.cart
+export const selectPizzaCount = createSelector(
+  [selectCart, (_, id) => id],
+  (cart, id) =>
+    cart.items.reduce((acc, item) => {
+      if (item.id === id) {
+        return acc + item.count
+      }
+      return acc
+    }, 0)
+)
 
 export const { addItem, minusItem, deleteItem, clearCart } = cartSlice.actions
 

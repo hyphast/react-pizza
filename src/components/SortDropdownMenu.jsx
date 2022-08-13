@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSort } from '../redux/filterSlice/filterSlice'
+import { selectSort, setSort } from '../redux/filterSlice/filterSlice'
 
 const SortDropdownMenu = ({ sortList, setIsDropdownVisible }) => {
   const dispatch = useDispatch()
-  const selectedSort = useSelector((state) => state.filter.sort)
+  const selectedSort = useSelector(selectSort)
   const handleSort = (sort) => {
     dispatch(setSort(sort))
     setIsDropdownVisible(false)

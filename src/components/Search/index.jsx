@@ -1,20 +1,27 @@
 import React, { useCallback, useRef, useState } from 'react'
 import classnames from 'classnames'
+import { useDispatch, useSelector } from 'react-redux'
 import { debounce } from '../../utils/debounce'
 import styles from './Search.module.scss'
+import {
+  selectSearchValue,
+  setSearchValue,
+} from '../../redux/filterSlice/filterSlice'
 
-const Search = ({ searchValue, setSearchValue }) => {
+const Search = () => {
+  const dispatch = useDispatch()
+  const searchValue = useSelector(selectSearchValue)
   const inputRef = useRef()
   const [inputValue, setInputValue] = useState('')
 
   const clearInput = () => {
-    setSearchValue('')
+    dispatch(setSearchValue(''))
     setInputValue('')
     inputRef.current.focus()
   }
 
   const debounceInput = useCallback(
-    debounce((val) => setSearchValue(val), 350),
+    debounce((val) => dispatch(setSearchValue(val)), 350),
     []
   )
 

@@ -2,7 +2,20 @@ import React from 'react'
 import PizzaBlockSkeleton from '../PizzaBlock/PizzaBlockSkeleton'
 import PizzaBlock from '../PizzaBlock/PizzaBlock'
 
-const PizzasItems = ({ isDataLoading, pizzaData }) => {
+const PizzasItems = ({ status, pizzaData }) => {
+  const isDataLoading = status === 'loading'
+
+  if (status === 'error') {
+    return (
+      <div className="content__error">
+        <h2>
+          Произошла ошибка <span>😕</span>
+        </h2>
+        <p>Попробуйте снова. Неизвестная ошибка.</p>
+      </div>
+    )
+  }
+
   if (!pizzaData.length && !isDataLoading) {
     return (
       <div className="empty">

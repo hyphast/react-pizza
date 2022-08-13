@@ -1,21 +1,14 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addItem } from '../../redux/cartSlice/cartSlice'
+import { addItem, selectPizzaCount } from '../../redux/cartSlice/cartSlice'
 
 function PizzaBlock({ id, title, imageUrl, price, sizes, types }) {
   const dispatch = useDispatch()
-  const { items } = useSelector((state) => state.cart)
+  const count = useSelector((state) => selectPizzaCount(state, id))
   const [selectedSize, setSelectedSize] = useState(0)
-  const [selectedType, setSelectedType] = useState(0)
+  const [selectedType, setSelectedType] = useState(types[0])
 
   const pizzaType = ['тонкое', 'традиционное']
-
-  const count = items.reduce((acc, item) => {
-    if (item.id === id) {
-      return acc + item.count
-    }
-    return acc
-  }, 0)
 
   const onClickAdd = () => {
     dispatch(
@@ -36,11 +29,11 @@ function PizzaBlock({ id, title, imageUrl, price, sizes, types }) {
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          {types.map((type, index) => (
+          {types.map((type) => (
             <li
               key={type}
-              className={selectedType === index ? 'active' : ''}
-              onClick={() => setSelectedType(index)}
+              className={selectedType === type ? 'active' : ''}
+              onClick={() => setSelectedType(type)}
             >
               {pizzaType[type]}
             </li>

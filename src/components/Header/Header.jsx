@@ -1,13 +1,22 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import PizzaLogoImg from '../assets/img/pizza-logo.svg'
-import Search from './Search'
-import { SearchContext } from '../SearchContextWrapper'
+import PizzaLogoImg from '../../assets/img/pizza-logo.svg'
+import Search from '../Search'
+import { selectCart } from '../../redux/cartSlice/cartSlice'
 
 function Header() {
-  const { searchValue, setSearchValue } = useContext(SearchContext)
-  const { totalPrice, items } = useSelector((state) => state.cart)
+  const location = useLocation()
+  const [isCartOpened, setIsCartOpened] = useState(false)
+
+  useEffect(() => {
+    if (location.pathname === '/cart') {
+      setIsCartOpened(true)
+    }
+    return () => setIsCartOpened(false)
+  }, [location])
+
+  const { totalPrice, items } = useSelector(selectCart)
 
   const count = items.reduce((acc, item) => acc + item.count, 0)
 
@@ -23,7 +32,7 @@ function Header() {
             </div>
           </div>
         </Link>
-        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+        {!isCartOpened && <Search />}
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>{totalPrice} ₽</span>

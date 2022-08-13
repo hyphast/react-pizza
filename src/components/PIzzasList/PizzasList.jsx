@@ -1,48 +1,45 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import qs from 'qs'
 import Categories from '../Categories'
 import TopSort, { sortList } from '../TopSort'
 import Pagination from '../Pagination/Pagination'
 import PizzasItems from './PizzasItems'
-import { SearchContext } from '../../SearchContextWrapper'
-import { setFilters } from '../../redux/filterSlice/filterSlice'
+import { selectFilter, setFilters } from '../../redux/filterSlice/filterSlice'
+import { fetchPizzas, selectPizzaData } from '../../redux/pizzaSlice/pizzaSlice'
 
 const PizzasList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { items: pizzaData, status } = useSelector(selectPizzaData)
   const {
     category: selectedCategory,
     sort,
     currentPage,
     pageSize,
-  } = useSelector((state) => state.filter)
+    searchValue,
+  } = useSelector(selectFilter)
   const { sortProperty, name: sortName, isDesc } = sort
-  const { searchValue } = useContext(SearchContext)
-  const [pizzaData, setPizzaData] = useState([])
-  const [isDataLoading, setIsDataLoading] = useState(false)
   const isMounted = useRef(false)
   const isSearch = useRef(false)
 
-  const fetchPizzas = () => {
-    setIsDataLoading(true)
+  const getPizzas = async () => {
     const catFilter =
       selectedCategory === 0 ? '' : `&category=${selectedCategory}`
     const search = searchValue ? `&title_like=${searchValue}` : ''
     const order = isDesc ? 'desc' : 'asc'
-    axios
-      .get(
-        `http://localhost:3002/pizzas?_page=${currentPage}&_limit=${pageSize}${catFilter}&_sort=${sortProperty}&_order=${order}${search}`
-      )
-      .then((res) => {
-        setPizzaData(res.data)
-        setIsDataLoading(false)
+
+    dispatch(
+      fetchPizzas({
+        currentPage,
+        pageSize,
+        catFilter,
+        sortProperty,
+        order,
+        search,
       })
-      .finally(() => {
-        setIsDataLoading(false)
-      })
+    )
   }
 
   useEffect(() => {
@@ -77,7 +74,7 @@ const PizzasList = () => {
 
   useEffect(() => {
     if (!isSearch.current || (isSearch.current && selectedCategory === 0)) {
-      fetchPizzas()
+      getPizzas()
     }
 
     isSearch.current = false
@@ -102,7 +99,7 @@ const PizzasList = () => {
           <TopSort sortName={sortName} isDesc={isDesc} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        <PizzasItems isDataLoading={isDataLoading} pizzaData={pizzaData} />
+        <PizzasItems status={status} pizzaData={pizzaData} />
         <Pagination
           totalCount={10}
           currentPage={currentPage}
