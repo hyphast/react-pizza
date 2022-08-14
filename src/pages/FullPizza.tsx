@@ -3,9 +3,16 @@ import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
 
-const FullPizza = () => {
+const FullPizza: React.FC = () => {
   const { id } = useParams()
-  const [pizzaData, setPizzaData] = useState(null)
+  const [pizzaData, setPizzaData] = useState<{
+    id: number
+    title: string
+    imageUrl: string
+    price: number
+    sizes: number[]
+    types: number[]
+  }>()
 
   useEffect(() => {
     const fetchPizza = async () => {
@@ -36,7 +43,7 @@ const FullPizza = () => {
         padding: '25px 0',
       }}
     >
-      <PizzaBlock id={id} {...pizzaData} />
+      <PizzaBlock {...pizzaData} />
       <Link
         style={{ marginTop: '35px' }}
         to="/"
