@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { setCategory } from '../redux/filterSlice/filterSlice'
+import { setCategory, setCurrentPage } from '../redux/filterSlice/filterSlice'
 
 const categoriesList = [
   'Все',
@@ -13,14 +13,24 @@ const categoriesList = [
 
 const Categories = ({ selectedCategory }) => {
   const dispatch = useDispatch()
+
+  const onClickCategory = (index) => {
+    dispatch(setCategory(index))
+    dispatch(setCurrentPage(1))
+  }
+  const onKeyDownCategory = (index) => {
+    dispatch(setCategory(index))
+    dispatch(setCurrentPage(1))
+  }
+
   return (
     <div className="categories">
       <ul>
         {categoriesList.map((cat, index) => (
           <li
             key={cat}
-            onClick={() => dispatch(setCategory(index))}
-            onKeyDown={() => dispatch(setCategory(index))}
+            onClick={() => onClickCategory(index)}
+            onKeyDown={() => onKeyDownCategory(index)}
             className={selectedCategory === index ? 'active' : ''}
           >
             {cat}

@@ -12,7 +12,7 @@ const Search = () => {
   const dispatch = useDispatch()
   const searchValue = useSelector(selectSearchValue)
   const inputRef = useRef()
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState(searchValue)
 
   const clearInput = () => {
     dispatch(setSearchValue(''))

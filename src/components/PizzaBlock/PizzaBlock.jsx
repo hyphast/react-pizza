@@ -10,7 +10,8 @@ function PizzaBlock({ id, title, imageUrl, price, sizes, types }) {
 
   const pizzaType = ['тонкое', 'традиционное']
 
-  const onClickAdd = () => {
+  const onClickAdd = (e) => {
+    e.preventDefault()
     dispatch(
       addItem({
         id,
@@ -23,6 +24,15 @@ function PizzaBlock({ id, title, imageUrl, price, sizes, types }) {
     )
   }
 
+  const onClickSize = (e, index) => {
+    e.preventDefault()
+    setSelectedSize(index)
+  }
+  const onClickType = (e, type) => {
+    e.preventDefault()
+    setSelectedType(type)
+  }
+
   return (
     <div className="pizza-block">
       <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
@@ -33,7 +43,7 @@ function PizzaBlock({ id, title, imageUrl, price, sizes, types }) {
             <li
               key={type}
               className={selectedType === type ? 'active' : ''}
-              onClick={() => setSelectedType(type)}
+              onClick={(e) => onClickType(e, type)}
             >
               {pizzaType[type]}
             </li>
@@ -44,7 +54,7 @@ function PizzaBlock({ id, title, imageUrl, price, sizes, types }) {
             <li
               key={size}
               className={selectedSize === index ? 'active' : ''}
-              onClick={() => setSelectedSize(index)}
+              onClick={(e) => onClickSize(e, index)}
             >
               {size}
             </li>

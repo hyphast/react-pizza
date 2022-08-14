@@ -7,13 +7,13 @@ import { selectCart } from '../../redux/cartSlice/cartSlice'
 
 function Header() {
   const location = useLocation()
-  const [isCartOpened, setIsCartOpened] = useState(false)
+  const [isSearchVisible, setIsSearchVisible] = useState(false)
 
   useEffect(() => {
     if (location.pathname === '/cart') {
-      setIsCartOpened(true)
+      setIsSearchVisible(true)
     }
-    return () => setIsCartOpened(false)
+    return () => setIsSearchVisible(false)
   }, [location])
 
   const { totalPrice, items } = useSelector(selectCart)
@@ -32,7 +32,7 @@ function Header() {
             </div>
           </div>
         </Link>
-        {!isCartOpened && <Search />}
+        {!isSearchVisible && <Search />}
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>{totalPrice} ₽</span>

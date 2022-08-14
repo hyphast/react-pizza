@@ -1,11 +1,8 @@
 import React from 'react'
+import ContentInfo from '../components/common/ContentInfo/ContentInfo'
 
 function NotFound() {
-  return (
-    <div>
-      <h1>Not Found</h1>
-    </div>
-  )
+  return <ContentInfo title="Not Found" backBtn />
 }
 
 export default NotFound
