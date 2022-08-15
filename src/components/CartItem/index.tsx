@@ -2,20 +2,37 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addItem, deleteItem, minusItem } from '../../redux/cartSlice/cartSlice'
 
-const CartItem = ({ id, title, imageUrl, type, size, price, count }) => {
+export type CartItemProps = {
+  id: number
+  title: string
+  imageUrl: string
+  type: string
+  size: number
+  price: number
+  count: number
+}
+const CartItem: React.FC<CartItemProps> = ({
+  id,
+  title,
+  imageUrl,
+  type,
+  size,
+  price,
+  count,
+}) => {
   const dispatch = useDispatch()
 
-  const onClickPlus = () => {
+  const onClickPlus = (): void => {
     dispatch(addItem({ id, type, size }))
   }
 
-  const onClickMinus = () => {
+  const onClickMinus = (): void => {
     if (count > 1) {
       dispatch(minusItem({ id, type, size }))
     }
   }
 
-  const onClickDelete = () => {
+  const onClickDelete = (): void => {
     if (window.confirm('Вы действительно хотите удалить этот товар?')) {
       dispatch(deleteItem({ id, type, size }))
     }

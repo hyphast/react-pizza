@@ -1,7 +1,10 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-const MyLoader = (props) => (
+type PizzaBlockSkeletonProps = {
+  [x: string]: any
+}
+const PizzaBlockSkeleton: React.FC<PizzaBlockSkeletonProps> = (props) => (
   <ContentLoader
     speed={2}
     width={280}
@@ -20,4 +23,4 @@ const MyLoader = (props) => (
   </ContentLoader>
 )
 
-export default MyLoader
+export default PizzaBlockSkeleton

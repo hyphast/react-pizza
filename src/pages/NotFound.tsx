@@ -1,7 +1,7 @@
 import React from 'react'
 import ContentInfo from '../components/common/ContentInfo/ContentInfo'
 
-function NotFound() {
+const NotFound: React.FC = () => {
   return <ContentInfo title="Not Found" backBtn />
 }
 

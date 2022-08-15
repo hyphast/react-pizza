@@ -5,7 +5,7 @@ import PizzaLogoImg from '../../assets/img/pizza-logo.svg'
 import Search from '../Search'
 import { selectCart } from '../../redux/cartSlice/cartSlice'
 
-function Header() {
+const Header: React.FC = () => {
   const location = useLocation()
   const [isSearchVisible, setIsSearchVisible] = useState(false)
 
@@ -18,7 +18,7 @@ function Header() {
 
   const { totalPrice, items } = useSelector(selectCart)
 
-  const count = items.reduce((acc, item) => acc + item.count, 0)
+  const count = items.reduce((acc: number, item: any) => acc + item.count, 0)
 
   return (
     <div className="header">

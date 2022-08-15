@@ -2,17 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
+import { PizzaItem } from '../components/PIzzasItems/types'
 
 const FullPizza: React.FC = () => {
   const { id } = useParams()
-  const [pizzaData, setPizzaData] = useState<{
-    id: number
-    title: string
-    imageUrl: string
-    price: number
-    sizes: number[]
-    types: number[]
-  }>()
+  const [pizzaData, setPizzaData] = useState<PizzaItem>()
 
   useEffect(() => {
     const fetchPizza = async () => {

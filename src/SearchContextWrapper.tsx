@@ -2,12 +2,12 @@ import React, { useMemo } from 'react'
 
 type SearchType = {
   searchValue: string
-  setSearchValue: Function
+  setSearchValue: () => string
 }
 export const SearchContext = React.createContext<SearchType | null>(null)
 
 type SearchContextProps = {
-  value: { searchValue: string; setSearchValue: Function }
+  value: SearchType
   children: React.ReactNode
 }
 const SearchContextWrapper: React.FC<SearchContextProps> = ({

@@ -2,14 +2,14 @@ import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import qs from 'qs'
-import Categories from '../components/Categories'
-import TopSort, { sortList } from '../components/TopSort'
+import Categories from '../components/MainBar/Categories'
+import TopSort, { sortList } from '../components/MainBar/TopSort'
 import Pagination from '../components/Pagination/Pagination'
-import PizzasItems from '../components/PIzzasList/PizzasItems'
+import PizzasItems from '../components/PIzzasItems/PizzasItems'
 import { selectFilter, setFilters } from '../redux/filterSlice/filterSlice'
 import { fetchPizzas, selectPizzaData } from '../redux/pizzaSlice/pizzaSlice'
 
-const PizzasList = () => {
+const PizzasList: React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { items: pizzaData, status } = useSelector(selectPizzaData)
@@ -31,6 +31,7 @@ const PizzasList = () => {
     const order = isDesc ? 'desc' : 'asc'
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         currentPage,
         pageSize,
@@ -66,9 +67,9 @@ const PizzasList = () => {
         (item) => item.sortProperty === params.sort
       )
 
-      currentSort.isDesc = order === 'true'
+      const sortWithDesc = { ...currentSort, isDesc: order === 'true' }
 
-      dispatch(setFilters({ ...rest, currentPage: page, sort: currentSort }))
+      dispatch(setFilters({ ...rest, currentPage: page, sort: sortWithDesc }))
       isSearch.current = true
     }
   }, [])

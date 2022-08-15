@@ -1,8 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const ContentInfo = ({ title, desc, ...rest }) => {
-  const isBackBtnVisible = rest?.backBtn === true
+type ContentInfoProps = {
+  title: string
+  desc?: string
+  backBtn?: boolean
+}
+const ContentInfo: React.FC<ContentInfoProps> = ({ title, desc, ...rest }) => {
+  const isBackBtnVisible = rest.backBtn === true
 
   return (
     <div className="content__info">
@@ -21,6 +26,11 @@ const ContentInfo = ({ title, desc, ...rest }) => {
       )}
     </div>
   )
+}
+
+ContentInfo.defaultProps = {
+  backBtn: false,
+  desc: '',
 }
 
 export default ContentInfo

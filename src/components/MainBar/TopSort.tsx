@@ -1,22 +1,33 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import SortDropdownMenu from './SortDropdownMenu'
-import { toggleSortOrder } from '../redux/filterSlice/filterSlice'
+import { toggleSortOrder } from '../../redux/filterSlice/filterSlice'
+import { SortItem } from './types'
 
-export const sortList = [
+type PopupClick = MouseEvent & {
+  path: Node[]
+}
+
+export const sortList: SortItem[] = [
   { name: 'популярности', sortProperty: 'rating' },
   { name: 'цене', sortProperty: 'price' },
   { name: 'алфавиту', sortProperty: 'title' },
 ]
 
-const TopSort = ({ sortName, isDesc }) => {
+type TopSortProps = {
+  sortName: string
+  isDesc: boolean
+}
+const TopSort: React.FC<TopSortProps> = ({ sortName, isDesc }) => {
   const dispatch = useDispatch()
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
-  const sortRef = useRef()
+  const sortRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const onClickOutside = (event) => {
-      if (!event.path.includes(sortRef.current)) {
+    const onClickOutside = (event: MouseEvent): void => {
+      const eventWithPath = event as PopupClick
+
+      if (sortRef.current && !eventWithPath.path.includes(sortRef.current)) {
         setIsDropdownVisible(false)
       }
     }

@@ -1,16 +1,25 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem, selectPizzaCount } from '../../redux/cartSlice/cartSlice'
+import { PizzaItem } from '../PIzzasItems/types'
 
-function PizzaBlock({ id, title, imageUrl, price, sizes, types }) {
+const PizzaBlock: React.FC<PizzaItem> = ({
+  id,
+  title,
+  imageUrl,
+  price,
+  sizes,
+  types,
+}) => {
   const dispatch = useDispatch()
+  // @ts-ignore
   const count = useSelector((state) => selectPizzaCount(state, id))
   const [selectedSize, setSelectedSize] = useState(0)
   const [selectedType, setSelectedType] = useState(types[0])
 
-  const pizzaType = ['тонкое', 'традиционное']
+  const pizzaType: string[] = ['тонкое', 'традиционное']
 
-  const onClickAdd = (e) => {
+  const onClickAdd = (e: React.MouseEvent<HTMLDivElement>): void => {
     e.preventDefault()
     dispatch(
       addItem({
@@ -24,11 +33,17 @@ function PizzaBlock({ id, title, imageUrl, price, sizes, types }) {
     )
   }
 
-  const onClickSize = (e, index) => {
+  const onClickSize = (
+    e: React.MouseEvent<HTMLLIElement>,
+    size: number
+  ): void => {
     e.preventDefault()
-    setSelectedSize(index)
+    setSelectedSize(size)
   }
-  const onClickType = (e, type) => {
+  const onClickType = (
+    e: React.MouseEvent<HTMLLIElement>,
+    type: number
+  ): void => {
     e.preventDefault()
     setSelectedType(type)
   }
