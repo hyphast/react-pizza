@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-type ContentInfoProps = {
+type TContentInfoProps = {
   title: string
   desc?: string
   backBtn?: boolean
 }
-const ContentInfo: React.FC<ContentInfoProps> = ({ title, desc, ...rest }) => {
+const ContentInfo: React.FC<TContentInfoProps> = ({ title, desc, ...rest }) => {
   const isBackBtnVisible = rest.backBtn === true
 
   return (

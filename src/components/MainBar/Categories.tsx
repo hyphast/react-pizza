@@ -14,10 +14,10 @@ const categoriesList: string[] = [
   'Закрытые',
 ]
 
-type CategoriesProps = {
+type TCategoriesProps = {
   selectedCategory: number
 }
-const Categories: React.FC<CategoriesProps> = ({ selectedCategory }) => {
+const Categories: React.FC<TCategoriesProps> = ({ selectedCategory }) => {
   const dispatch = useDispatch()
 
   const onClickCategory = (cat: number): void => {

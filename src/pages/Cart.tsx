@@ -105,7 +105,6 @@ const Cart: React.FC = () => {
             </div>
           </div>
           <div className="content__items">
-            {/* @ts-ignore */}
             {items.map((pizza) => (
               <CartItem key={pizza.id + pizza.size + pizza.type} {...pizza} />
             ))}

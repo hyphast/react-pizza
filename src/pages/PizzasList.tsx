@@ -67,9 +67,14 @@ const PizzasList: React.FC = () => {
         (item) => item.sortProperty === params.sort
       )
 
-      const sortWithDesc = { ...currentSort, isDesc: order === 'true' }
+      if (currentSort && order) {
+        const sortWithDesc = { ...currentSort, isDesc: order === 'true' }
 
-      dispatch(setFilters({ ...rest, currentPage: page, sort: sortWithDesc }))
+        dispatch(
+          // @ts-ignore
+          setFilters({ ...rest, currentPage: Number(page), sort: sortWithDesc })
+        )
+      }
       isSearch.current = true
     }
   }, [])

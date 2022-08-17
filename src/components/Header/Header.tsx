@@ -18,7 +18,7 @@ const Header: React.FC = () => {
 
   const { totalPrice, items } = useSelector(selectCart)
 
-  const count = items.reduce((acc: number, item: any) => acc + item.count, 0)
+  const count = items.reduce((acc: number, item) => acc + item.count, 0)
 
   return (
     <div className="header">

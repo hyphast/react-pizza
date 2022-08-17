@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
-import { PizzaItem } from '../components/PIzzasItems/types'
+import { TPizzaItem } from '../redux/pizzaSlice/pizzaSlice'
 
 const FullPizza: React.FC = () => {
   const { id } = useParams()
-  const [pizzaData, setPizzaData] = useState<PizzaItem>()
+  const [pizzaData, setPizzaData] = useState<TPizzaItem>()
 
   useEffect(() => {
     const fetchPizza = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3002/pizzas/${id}`)
+        const { data } = await axios.get<TPizzaItem>(
+          `http://localhost:3002/pizzas/${id}`
+        )
         setPizzaData(data)
       } catch (e) {
         alert(e)

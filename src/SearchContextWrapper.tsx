@@ -1,22 +1,22 @@
 import React, { useMemo } from 'react'
 
-type SearchType = {
+type TSearchType = {
   searchValue: string
   setSearchValue: () => string
 }
-export const SearchContext = React.createContext<SearchType | null>(null)
+export const SearchContext = React.createContext<TSearchType | null>(null)
 
-type SearchContextProps = {
-  value: SearchType
+type TSearchContextProps = {
+  value: TSearchType
   children: React.ReactNode
 }
-const SearchContextWrapper: React.FC<SearchContextProps> = ({
+const SearchContextWrapper: React.FC<TSearchContextProps> = ({
   value,
   children,
 }) => {
   const { searchValue, setSearchValue } = value
 
-  const searchContextValue: SearchType = useMemo(
+  const searchContextValue: TSearchType = useMemo(
     () => ({ searchValue, setSearchValue }),
     [searchValue, setSearchValue]
   )

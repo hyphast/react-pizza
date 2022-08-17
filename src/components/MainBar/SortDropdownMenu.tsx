@@ -1,19 +1,22 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectSort, setSort } from '../../redux/filterSlice/filterSlice'
-import { SortItem } from './types'
+import {
+  selectSort,
+  setSort,
+  TSortType,
+} from '../../redux/filterSlice/filterSlice'
 
-type SortDropdownProps = {
-  sortList: SortItem[]
+type TSortDropdownProps = {
+  sortList: TSortType[]
   setIsDropdownVisible: Dispatch<SetStateAction<boolean>>
 }
-const SortDropdownMenu: React.FC<SortDropdownProps> = ({
+const SortDropdownMenu: React.FC<TSortDropdownProps> = ({
   sortList,
   setIsDropdownVisible,
 }) => {
   const dispatch = useDispatch()
   const selectedSort = useSelector(selectSort)
-  const handleSort = (sort: SortItem): void => {
+  const handleSort = (sort: TSortType): void => {
     dispatch(setSort(sort))
     setIsDropdownVisible(false)
   }
@@ -21,7 +24,7 @@ const SortDropdownMenu: React.FC<SortDropdownProps> = ({
   return (
     <div className="sort__popup">
       <ul>
-        {sortList.map((sort: SortItem) => (
+        {sortList.map((sort) => (
           <li
             key={sort.sortProperty}
             className={

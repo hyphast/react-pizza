@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem, selectPizzaCount } from '../../redux/cartSlice/cartSlice'
-import { PizzaItem } from '../PIzzasItems/types'
+import { TPizzaItem } from '../../redux/pizzaSlice/pizzaSlice'
 
-const PizzaBlock: React.FC<PizzaItem> = ({
+const PizzaBlock: React.FC<TPizzaItem> = ({
   id,
   title,
   imageUrl,
@@ -29,6 +29,7 @@ const PizzaBlock: React.FC<PizzaItem> = ({
         price,
         type: pizzaType[selectedType],
         size: sizes[selectedSize],
+        count: 0,
       })
     )
   }

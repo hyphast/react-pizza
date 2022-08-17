@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import PizzaBlockSkeleton from '../PizzaBlock/PizzaBlockSkeleton'
 import PizzaBlock from '../PizzaBlock/PizzaBlock'
 import ContentInfo from '../common/ContentInfo/ContentInfo'
-import { PizzaItem } from './types'
+import { TPizzaItem } from '../../redux/pizzaSlice/pizzaSlice'
 
-type PizzasItemsProps = {
+type TPizzasItemsProps = {
   status: 'loading' | 'error' | 'success'
-  pizzaData: PizzaItem[]
+  pizzaData: TPizzaItem[]
 }
-const PizzasItems: React.FC<PizzasItemsProps> = ({ status, pizzaData }) => {
+const PizzasItems: React.FC<TPizzasItemsProps> = ({ status, pizzaData }) => {
   const isDataLoading = status === 'loading'
 
   if (status === 'error') {

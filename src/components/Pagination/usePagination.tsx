@@ -60,7 +60,7 @@ const usePagination = ({
       return [pagination, totalPageCount] as const
     }
 
-    return []
+    return [['1'], 1] as const
   }, [totalCount, pageSize, siblingCount, currentPage])
 
   return paginationRange

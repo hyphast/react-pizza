@@ -1,10 +1,10 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-type PizzaBlockSkeletonProps = {
+type TPizzaBlockSkeletonProps = {
   [x: string]: any
 }
-const PizzaBlockSkeleton: React.FC<PizzaBlockSkeletonProps> = (props) => (
+const PizzaBlockSkeleton: React.FC<TPizzaBlockSkeletonProps> = (props) => (
   <ContentLoader
     speed={2}
     width={280}

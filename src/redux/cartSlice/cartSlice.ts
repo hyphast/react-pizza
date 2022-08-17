@@ -1,6 +1,22 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '../store'
 
-const initialState = {
+export type TCartItem = {
+  id: number
+  title: string
+  imageUrl: string
+  type: string
+  size: number
+  price: number
+  count: number
+}
+type TCartUniqueItem = Pick<TCartItem, 'id' | 'type' | 'size'>
+
+interface ICartSliceState {
+  items: TCartItem[]
+  totalPrice: number
+}
+const initialState: ICartSliceState = {
   items: [],
   totalPrice: 0,
 }
@@ -9,7 +25,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addItem(state, action) {
+    addItem(state, action: PayloadAction<TCartItem>) {
       const findItem = state.items.find(
         (item) =>
           item.id === action.payload.id &&
@@ -27,7 +43,7 @@ const cartSlice = createSlice({
         0
       )
     },
-    minusItem(state, action) {
+    minusItem(state, action: PayloadAction<TCartUniqueItem>) {
       const pizza = state.items.find(
         (item) =>
           item.id === action.payload.id &&
@@ -43,7 +59,7 @@ const cartSlice = createSlice({
         0
       )
     },
-    deleteItem(state, action) {
+    deleteItem(state, action: PayloadAction<TCartUniqueItem>) {
       state.items = state.items.filter(
         (item) =>
           item.id !== action.payload.id ||
@@ -63,9 +79,9 @@ const cartSlice = createSlice({
   },
 })
 
-export const selectCart = (state) => state.cart
+export const selectCart = (state: RootState) => state.cart
 export const selectPizzaCount = createSelector(
-  [selectCart, (_, id) => id],
+  [selectCart, (_: RootState, id: number) => id],
   (cart, id) =>
     cart.items.reduce((acc, item) => {
       if (item.id === id) {
