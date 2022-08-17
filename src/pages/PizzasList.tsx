@@ -1,16 +1,29 @@
 import React, { useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import qs from 'qs'
 import Categories from '../components/MainBar/Categories'
 import TopSort, { sortList } from '../components/MainBar/TopSort'
 import Pagination from '../components/Pagination/Pagination'
 import PizzasItems from '../components/PIzzasItems/PizzasItems'
-import { selectFilter, setFilters } from '../redux/filterSlice/filterSlice'
+import {
+  selectFilter,
+  setFilters,
+  TSortType,
+} from '../redux/filterSlice/filterSlice'
 import { fetchPizzas, selectPizzaData } from '../redux/pizzaSlice/pizzaSlice'
+import { useAppDispatch } from '../redux/store'
+
+type TSearch = {
+  category: string
+  sort: string
+  order: string
+  page: string
+  pageSize: string
+}
 
 const PizzasList: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { items: pizzaData, status } = useSelector(selectPizzaData)
   const {
@@ -31,7 +44,6 @@ const PizzasList: React.FC = () => {
     const order = isDesc ? 'desc' : 'asc'
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         currentPage,
         pageSize,
@@ -45,13 +57,16 @@ const PizzasList: React.FC = () => {
 
   useEffect(() => {
     if (isMounted.current) {
-      const queryString = qs.stringify({
-        category: selectedCategory,
-        sort: sortProperty,
-        order: isDesc,
-        page: currentPage,
-        pageSize,
-      })
+      const queryString = qs.stringify(
+        {
+          category: selectedCategory,
+          sort: sortProperty,
+          order: isDesc,
+          page: currentPage,
+          pageSize,
+        },
+        { skipNulls: true }
+      )
       navigate(`?${queryString}`)
     }
     isMounted.current = true
@@ -59,7 +74,7 @@ const PizzasList: React.FC = () => {
 
   useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.slice(1))
+      const params = qs.parse(window.location.search.slice(1)) as TSearch
 
       const { page, order, ...rest } = params
 
@@ -67,14 +82,20 @@ const PizzasList: React.FC = () => {
         (item) => item.sortProperty === params.sort
       )
 
-      if (currentSort && order) {
-        const sortWithDesc = { ...currentSort, isDesc: order === 'true' }
+      const sortWithDesc = {
+        ...currentSort,
+        isDesc: order === 'true',
+      } as TSortType
 
-        dispatch(
-          // @ts-ignore
-          setFilters({ ...rest, currentPage: Number(page), sort: sortWithDesc })
-        )
-      }
+      dispatch(
+        setFilters({
+          searchValue: '',
+          currentPage: Number(page),
+          pageSize: Number(rest.pageSize),
+          category: Number(rest.category),
+          sort: sortWithDesc || sortList[0],
+        })
+      )
       isSearch.current = true
     }
   }, [])

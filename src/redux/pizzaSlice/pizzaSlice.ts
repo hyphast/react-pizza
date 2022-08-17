@@ -11,25 +11,38 @@ export type TPizzaItem = {
   types: number[]
 }
 
-export const fetchPizzas = createAsyncThunk<
-  TPizzaItem[],
-  Record<string, string | number>
->('pizza/fetchPizzas', async (params) => {
-  const { currentPage, pageSize, catFilter, sortProperty, order, search } =
-    params
-  const { data } = await axios.get<TPizzaItem[]>(
-    `http://localhost:3002/pizzas?_page=${currentPage}&_limit=${pageSize}${catFilter}&_sort=${sortProperty}&_order=${order}${search}`
-  )
-  return data
-})
+export type SearchPizzaParams = {
+  currentPage: number
+  pageSize: number
+  catFilter: string
+  sortProperty: string
+  order: string
+  search: string
+}
+export const fetchPizzas = createAsyncThunk<TPizzaItem[], SearchPizzaParams>(
+  'pizza/fetchPizzas',
+  async (params) => {
+    const { currentPage, pageSize, catFilter, sortProperty, order, search } =
+      params
+    const { data } = await axios.get<TPizzaItem[]>(
+      `http://localhost:3002/pizzas?_page=${currentPage}&_limit=${pageSize}${catFilter}&_sort=${sortProperty}&_order=${order}${search}`
+    )
+    return data
+  }
+)
 
+enum Status {
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
 interface IPizzaSliceState {
   items: TPizzaItem[]
-  status: 'loading' | 'success' | 'error'
+  status: Status
 }
 const initialState: IPizzaSliceState = {
   items: [],
-  status: 'loading', // loading | success | error
+  status: Status.LOADING,
 }
 
 const pizzaSlice = createSlice({
@@ -42,15 +55,15 @@ const pizzaSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPizzas.pending, (state) => {
-      state.status = 'loading'
+      state.status = Status.LOADING
       state.items = []
     })
     builder.addCase(fetchPizzas.fulfilled, (state, action) => {
-      state.status = 'success'
+      state.status = Status.SUCCESS
       state.items = action.payload
     })
     builder.addCase(fetchPizzas.rejected, (state) => {
-      state.status = 'error'
+      state.status = Status.ERROR
       state.items = []
     })
   },

@@ -1,19 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import SortDropdownMenu from './SortDropdownMenu'
-import { toggleSortOrder, TSortType } from '../../redux/filterSlice/filterSlice'
+import {
+  SortEnum,
+  SortNameEnum,
+  toggleSortOrder,
+  TSortType,
+} from '../../redux/filterSlice/filterSlice'
 
 export const sortList: TSortType[] = [
-  { name: 'популярности', sortProperty: 'rating' },
-  { name: 'цене', sortProperty: 'price' },
-  { name: 'алфавиту', sortProperty: 'title' },
+  { name: SortNameEnum.RATING, sortProperty: SortEnum.RATING },
+  { name: SortNameEnum.PRICE, sortProperty: SortEnum.PRICE },
+  { name: SortNameEnum.TITLE, sortProperty: SortEnum.TITLE },
 ]
 
 type TTopSortProps = {
   sortName: string
   isDesc?: boolean
 }
-const TopSort: React.FC<TTopSortProps> = ({ sortName, isDesc }) => {
+const TopSort: React.FC<TTopSortProps> = React.memo(({ sortName, isDesc }) => {
   const dispatch = useDispatch()
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
   const sortRef = useRef<HTMLDivElement>(null)
@@ -63,7 +68,7 @@ const TopSort: React.FC<TTopSortProps> = ({ sortName, isDesc }) => {
       )}
     </div>
   )
-}
+})
 
 TopSort.defaultProps = {
   isDesc: false,

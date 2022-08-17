@@ -46,8 +46,9 @@ const CartItem: React.FC<TCartItem> = ({
         </p>
       </div>
       <div className="cart__item-count">
-        <div
-          role="button"
+        <button
+          disabled={count <= 1}
+          type="button"
           tabIndex={id}
           onClick={onClickMinus}
           className="button button--outline button--circle cart__item-count-minus"
@@ -68,11 +69,11 @@ const CartItem: React.FC<TCartItem> = ({
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
         <b>{count}</b>
-        <div
+        <button
+          type="button"
           onClick={onClickPlus}
-          role="button"
           tabIndex={id}
           className="button button--outline button--circle cart__item-count-plus"
         >
@@ -92,7 +93,7 @@ const CartItem: React.FC<TCartItem> = ({
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
       <div className="cart__item-price">
         <b>{price} ₽</b>
