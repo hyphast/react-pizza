@@ -1,24 +1,20 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
+import { calcTotalPrice } from '../../utils/calcTotalPrice'
+import { getItemsFromLS } from '../../utils/getItemsFromLS'
+import { TCartItem } from './types'
 
-export type TCartItem = {
-  id: number
-  title: string
-  imageUrl: string
-  type: string
-  size: number
-  price: number
-  count: number
-}
 type TCartUniqueItem = Pick<TCartItem, 'id' | 'type' | 'size'>
 
 interface ICartSliceState {
   items: TCartItem[]
   totalPrice: number
 }
+
+const { items, totalPrice } = getItemsFromLS()
 const initialState: ICartSliceState = {
-  items: [],
-  totalPrice: 0,
+  items,
+  totalPrice,
 }
 
 const cartSlice = createSlice({
@@ -38,10 +34,7 @@ const cartSlice = createSlice({
         state.items = [...state.items, { ...action.payload, count: 1 }]
       }
 
-      state.totalPrice = state.items.reduce(
-        (acc, item) => acc + item.price * item.count,
-        0
-      )
+      state.totalPrice = calcTotalPrice(state.items)
     },
     minusItem(state, action: PayloadAction<TCartUniqueItem>) {
       const pizza = state.items.find(
@@ -54,10 +47,7 @@ const cartSlice = createSlice({
         pizza.count -= 1
       }
 
-      state.totalPrice = state.items.reduce(
-        (acc, item) => acc + item.price * item.count,
-        0
-      )
+      state.totalPrice = calcTotalPrice(state.items)
     },
     deleteItem(state, action: PayloadAction<TCartUniqueItem>) {
       state.items = state.items.filter(
@@ -67,10 +57,7 @@ const cartSlice = createSlice({
           item.size !== action.payload.size
       )
 
-      state.totalPrice = state.items.reduce(
-        (acc, item) => acc + item.price * item.count,
-        0
-      )
+      state.totalPrice = calcTotalPrice(state.items)
     },
     clearCart(state) {
       state.items = []

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import PizzaLogoImg from '../../assets/img/pizza-logo.svg'
@@ -7,16 +7,27 @@ import { selectCart } from '../../redux/cartSlice/cartSlice'
 
 const Header: React.FC = () => {
   const location = useLocation()
+  const { totalPrice, items } = useSelector(selectCart)
+  const isMounted = useRef(false)
+
+  useEffect(() => {
+    if (isMounted.current) {
+      localStorage.setItem('cart', JSON.stringify(items))
+    }
+    isMounted.current = true
+  }, [items])
+
   const [isSearchVisible, setIsSearchVisible] = useState(false)
 
   useEffect(() => {
-    if (location.pathname === '/cart') {
+    if (
+      location.pathname === '/cart' ||
+      location.pathname.includes('/pizza/')
+    ) {
       setIsSearchVisible(true)
     }
     return () => setIsSearchVisible(false)
   }, [location])
-
-  const { totalPrice, items } = useSelector(selectCart)
 
   const count = items.reduce((acc: number, item) => acc + item.count, 0)
 
