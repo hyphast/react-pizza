@@ -2,16 +2,14 @@ import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import qs from 'qs'
-import Categories from '../components/MainBar/Categories'
-import TopSort, { sortList } from '../components/MainBar/TopSort'
-import Pagination from '../components/Pagination/Pagination'
-import PizzasItems from '../components/PIzzasItems/PizzasItems'
 import { setFilters } from '../redux/filter/slice'
 import { useAppDispatch } from '../redux/store'
 import { selectFilter } from '../redux/filter/selectors'
 import { TSortType } from '../redux/filter/types'
 import { selectPizzaData } from '../redux/pizza/selectors'
 import { fetchPizzas } from '../redux/pizza/asyncActions'
+import { sortList } from '../components/MainBar/TopSort'
+import { Categories, TopSort, Pagination, PizzasItems } from '../components'
 
 type TSearch = {
   category: string

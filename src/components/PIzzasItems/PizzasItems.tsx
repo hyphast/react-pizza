@@ -1,15 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import PizzaBlockSkeleton from '../PizzaBlock/PizzaBlockSkeleton'
-import PizzaBlock from '../PizzaBlock/PizzaBlock'
-import ContentInfo from '../common/ContentInfo/ContentInfo'
+import { PizzaBlockSkeleton } from '../PizzaBlock/PizzaBlockSkeleton'
+import { PizzaBlock } from '../PizzaBlock/PizzaBlock'
+import { ContentInfo } from '../common/ContentInfo/ContentInfo'
 import { TPizzaItem } from '../../redux/pizza/types'
 
 type TPizzasItemsProps = {
   status: 'loading' | 'error' | 'success'
   pizzaData: TPizzaItem[]
 }
-const PizzasItems: React.FC<TPizzasItemsProps> = ({ status, pizzaData }) => {
+export const PizzasItems: React.FC<TPizzasItemsProps> = ({
+  status,
+  pizzaData,
+}) => {
   const isDataLoading = status === 'loading'
 
   if (status === 'error') {
@@ -39,5 +42,3 @@ const PizzasItems: React.FC<TPizzasItemsProps> = ({ status, pizzaData }) => {
     </div>
   )
 }
-
-export default PizzasItems

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { addItem, deleteItem, minusItem } from '../../redux/cart/slice'
 import { TCartItem } from '../../redux/cart/types'
 
-const CartItem: React.FC<TCartItem> = ({
+export const CartItem: React.FC<TCartItem> = ({
   id,
   title,
   imageUrl,
@@ -122,5 +122,3 @@ const CartItem: React.FC<TCartItem> = ({
     </div>
   )
 }
-
-export default CartItem

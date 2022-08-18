@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
-import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
+import { PizzaBlock, Loading } from '../components'
 import { TPizzaItem } from '../redux/pizza/types'
 
 const FullPizza: React.FC = () => {
@@ -24,9 +24,7 @@ const FullPizza: React.FC = () => {
   }, [])
 
   if (!pizzaData) {
-    return (
-      <h2 style={{ textAlign: 'center', padding: '120px 0' }}>Загрузка...</h2>
-    )
+    return <Loading />
   }
 
   return (

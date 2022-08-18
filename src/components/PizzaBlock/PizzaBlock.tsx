@@ -5,7 +5,7 @@ import { RootState } from '../../redux/store'
 import { selectPizzaCount } from '../../redux/cart/selectors'
 import { TPizzaItem } from '../../redux/pizza/types'
 
-const PizzaBlock: React.FC<TPizzaItem> = ({
+export const PizzaBlock: React.FC<TPizzaItem> = ({
   id,
   title,
   imageUrl,
@@ -105,5 +105,3 @@ const PizzaBlock: React.FC<TPizzaItem> = ({
     </div>
   )
 }
-
-export default PizzaBlock

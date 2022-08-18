@@ -1,5 +1,5 @@
 import React from 'react'
-import ContentInfo from '../components/common/ContentInfo/ContentInfo'
+import { ContentInfo } from '../components'
 
 const NotFound: React.FC = () => {
   return <ContentInfo title="Not Found" backBtn />

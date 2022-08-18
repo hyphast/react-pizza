@@ -6,7 +6,11 @@ type TContentInfoProps = {
   desc?: string
   backBtn?: boolean
 }
-const ContentInfo: React.FC<TContentInfoProps> = ({ title, desc, ...rest }) => {
+export const ContentInfo: React.FC<TContentInfoProps> = ({
+  title,
+  desc,
+  ...rest
+}) => {
   const isBackBtnVisible = rest.backBtn === true
 
   return (
@@ -32,5 +36,3 @@ ContentInfo.defaultProps = {
   backBtn: false,
   desc: '',
 }
-
-export default ContentInfo

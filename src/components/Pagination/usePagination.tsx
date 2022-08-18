@@ -8,7 +8,7 @@ const getRange = (start: number, end: number): string[] => {
     .map((item, index) => String(item + index))
 }
 
-const usePagination = ({
+export const usePagination = ({
   totalCount,
   pageSize,
   siblingCount = 2,
@@ -65,5 +65,3 @@ const usePagination = ({
 
   return paginationRange
 }
-
-export default usePagination

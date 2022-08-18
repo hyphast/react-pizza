@@ -4,7 +4,9 @@ import ContentLoader from 'react-content-loader'
 type TPizzaBlockSkeletonProps = {
   [x: string]: any
 }
-const PizzaBlockSkeleton: React.FC<TPizzaBlockSkeletonProps> = (props) => (
+export const PizzaBlockSkeleton: React.FC<TPizzaBlockSkeletonProps> = (
+  props
+) => (
   <ContentLoader
     speed={2}
     width={280}
@@ -22,5 +24,3 @@ const PizzaBlockSkeleton: React.FC<TPizzaBlockSkeletonProps> = (props) => (
     <circle cx="144" cy="133" r="130" />
   </ContentLoader>
 )
-
-export default PizzaBlockSkeleton

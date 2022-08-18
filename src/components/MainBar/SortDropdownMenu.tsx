@@ -8,7 +8,7 @@ type TSortDropdownProps = {
   sortList: TSortType[]
   setIsDropdownVisible: Dispatch<SetStateAction<boolean>>
 }
-const SortDropdownMenu: React.FC<TSortDropdownProps> = ({
+export const SortDropdownMenu: React.FC<TSortDropdownProps> = ({
   sortList,
   setIsDropdownVisible,
 }) => {
@@ -38,5 +38,3 @@ const SortDropdownMenu: React.FC<TSortDropdownProps> = ({
     </div>
   )
 }
-
-export default SortDropdownMenu

@@ -1,12 +1,12 @@
 import React, { useCallback, useRef, useState } from 'react'
 import classnames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
-import { debounce } from '../../utils/debounce'
+import { debounce } from '../../utils'
 import { setSearchValue } from '../../redux/filter/slice'
 import styles from './Search.module.scss'
 import { selectSearchValue } from '../../redux/filter/selectors'
 
-const Search: React.FC = () => {
+export const Search: React.FC = () => {
   const dispatch = useDispatch()
   const searchValue = useSelector(selectSearchValue)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -54,5 +54,3 @@ const Search: React.FC = () => {
     </div>
   )
 }
-
-export default Search

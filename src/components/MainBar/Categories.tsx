@@ -14,7 +14,7 @@ const categoriesList: string[] = [
 type TCategoriesProps = {
   selectedCategory: number
 }
-const Categories: React.FC<TCategoriesProps> = React.memo(
+export const Categories: React.FC<TCategoriesProps> = React.memo(
   ({ selectedCategory }) => {
     const dispatch = useDispatch()
 
@@ -45,5 +45,3 @@ const Categories: React.FC<TCategoriesProps> = React.memo(
     )
   }
 )
-
-export default Categories
