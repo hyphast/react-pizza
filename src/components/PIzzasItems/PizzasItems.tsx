@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PizzaBlockSkeleton from '../PizzaBlock/PizzaBlockSkeleton'
 import PizzaBlock from '../PizzaBlock/PizzaBlock'
 import ContentInfo from '../common/ContentInfo/ContentInfo'
-import { TPizzaItem } from '../../redux/pizzaSlice/pizzaSlice'
+import { TPizzaItem } from '../../redux/pizza/types'
 
 type TPizzasItemsProps = {
   status: 'loading' | 'error' | 'success'

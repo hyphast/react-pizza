@@ -1,12 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import SortDropdownMenu from './SortDropdownMenu'
-import {
-  SortEnum,
-  SortNameEnum,
-  toggleSortOrder,
-  TSortType,
-} from '../../redux/filterSlice/filterSlice'
+import { toggleSortOrder } from '../../redux/filter/slice'
+import { SortEnum, SortNameEnum, TSortType } from '../../redux/filter/types'
 
 export const sortList: TSortType[] = [
   { name: SortNameEnum.RATING, sortProperty: SortEnum.RATING },

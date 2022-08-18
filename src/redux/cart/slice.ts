@@ -1,23 +1,11 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { calcTotalPrice } from '../../utils/calcTotalPrice'
 import { getItemsFromLS } from '../../utils/getItemsFromLS'
-import { TCartItem } from './types'
+import { ICartSliceState, TCartItem, TCartUniqueItem } from './types'
 
-type TCartUniqueItem = Pick<TCartItem, 'id' | 'type' | 'size'>
+const initialState: ICartSliceState = getItemsFromLS()
 
-interface ICartSliceState {
-  items: TCartItem[]
-  totalPrice: number
-}
-
-const { items, totalPrice } = getItemsFromLS()
-const initialState: ICartSliceState = {
-  items,
-  totalPrice,
-}
-
-const cartSlice = createSlice({
+const slice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
@@ -66,18 +54,6 @@ const cartSlice = createSlice({
   },
 })
 
-export const selectCart = (state: RootState) => state.cart
-export const selectPizzaCount = createSelector(
-  [selectCart, (_: RootState, id: number) => id],
-  (cart, id) =>
-    cart.items.reduce((acc, item) => {
-      if (item.id === id) {
-        return acc + item.count
-      }
-      return acc
-    }, 0)
-)
+export const { addItem, minusItem, deleteItem, clearCart } = slice.actions
 
-export const { addItem, minusItem, deleteItem, clearCart } = cartSlice.actions
-
-export default cartSlice.reducer
+export default slice.reducer

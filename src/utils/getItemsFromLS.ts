@@ -1,4 +1,5 @@
 import { calcTotalPrice } from './calcTotalPrice'
+import { TCartItem } from '../redux/cart/types'
 
 export const getItemsFromLS = () => {
   const data = localStorage.getItem('cart')
@@ -6,7 +7,7 @@ export const getItemsFromLS = () => {
   const totalPrice = calcTotalPrice(items)
 
   return {
-    items,
+    items: items as TCartItem[],
     totalPrice,
   }
 }

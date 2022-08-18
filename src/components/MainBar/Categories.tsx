@@ -1,9 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import {
-  setCategory,
-  setCurrentPage,
-} from '../../redux/filterSlice/filterSlice'
+import { setCategory, setCurrentPage } from '../../redux/filter/slice'
 
 const categoriesList: string[] = [
   'Все',

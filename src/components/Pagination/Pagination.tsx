@@ -1,10 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import usePagination from './usePagination'
-import {
-  setCurrentPage,
-  setPageSize,
-} from '../../redux/filterSlice/filterSlice'
+import { setCurrentPage, setPageSize } from '../../redux/filter/slice'
 import { PaginationParams } from './types'
 import styles from './Pagination.module.scss'
 

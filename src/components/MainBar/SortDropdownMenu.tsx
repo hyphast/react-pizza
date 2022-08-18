@@ -1,10 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  selectSort,
-  setSort,
-  TSortType,
-} from '../../redux/filterSlice/filterSlice'
+import { setSort } from '../../redux/filter/slice'
+import { selectSort } from '../../redux/filter/selectors'
+import { TSortType } from '../../redux/filter/types'
 
 type TSortDropdownProps = {
   sortList: TSortType[]

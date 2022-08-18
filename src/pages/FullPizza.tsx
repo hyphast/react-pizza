@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
-import { TPizzaItem } from '../redux/pizzaSlice/pizzaSlice'
+import { TPizzaItem } from '../redux/pizza/types'
 
 const FullPizza: React.FC = () => {
   const { id } = useParams()

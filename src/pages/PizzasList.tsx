@@ -6,13 +6,12 @@ import Categories from '../components/MainBar/Categories'
 import TopSort, { sortList } from '../components/MainBar/TopSort'
 import Pagination from '../components/Pagination/Pagination'
 import PizzasItems from '../components/PIzzasItems/PizzasItems'
-import {
-  selectFilter,
-  setFilters,
-  TSortType,
-} from '../redux/filterSlice/filterSlice'
-import { fetchPizzas, selectPizzaData } from '../redux/pizzaSlice/pizzaSlice'
+import { setFilters } from '../redux/filter/slice'
 import { useAppDispatch } from '../redux/store'
+import { selectFilter } from '../redux/filter/selectors'
+import { TSortType } from '../redux/filter/types'
+import { selectPizzaData } from '../redux/pizza/selectors'
+import { fetchPizzas } from '../redux/pizza/asyncActions'
 
 type TSearch = {
   category: string
