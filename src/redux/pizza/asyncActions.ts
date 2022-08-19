@@ -8,7 +8,7 @@ export const fetchPizzas = createAsyncThunk<TPizzaItem[], SearchPizzaParams>(
     const { currentPage, pageSize, catFilter, sortProperty, order, search } =
       params
     const { data } = await axios.get<TPizzaItem[]>(
-      `http://localhost:3002/pizzas?_page=${currentPage}&_limit=${pageSize}${catFilter}&_sort=${sortProperty}&_order=${order}${search}`
+      `${process.env.REACT_APP_API_URL}?_page=${currentPage}&_limit=${pageSize}${catFilter}&_sort=${sortProperty}&_order=${order}${search}`
     )
     return data
   }
