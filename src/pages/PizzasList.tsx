@@ -5,7 +5,7 @@ import qs from 'qs'
 import { setFilters } from '../redux/filter/slice'
 import { useAppDispatch } from '../redux/store'
 import { selectFilter } from '../redux/filter/selectors'
-import { TSortType } from '../redux/filter/types'
+import { SortEnum, TSortType } from '../redux/filter/types'
 import { selectPizzaData } from '../redux/pizza/selectors'
 import { fetchPizzas } from '../redux/pizza/asyncActions'
 import { sortList } from '../components/MainBar/TopSort'
@@ -32,7 +32,7 @@ const PizzasList: React.FC = () => {
   } = useSelector(selectFilter)
   const { sortProperty, name: sortName, isDesc } = sort
   const isMounted = useRef(false)
-  const isSearch = useRef(false)
+  // const isSearch = useRef(false)
 
   const getPizzas = async () => {
     const catFilter =
@@ -52,8 +52,73 @@ const PizzasList: React.FC = () => {
     )
   }
 
+  // ##################### VERSION 1 ############################
+
+  // useEffect(() => {
+  //   if (isMounted.current) {
+  //     const queryString = qs.stringify(
+  //       {
+  //         category: selectedCategory,
+  //         sort: sortProperty,
+  //         order: isDesc,
+  //         page: currentPage,
+  //         pageSize,
+  //       },
+  //       { skipNulls: true }
+  //     )
+  //     navigate(`?${queryString}`)
+  //   }
+  //   isMounted.current = true
+  // }, [selectedCategory, sortProperty, isDesc, currentPage, pageSize])
+
+  // useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = qs.parse(window.location.search.slice(1)) as TSearch
+  //
+  //     const { page, order, ...rest } = params
+  //
+  //     const currentSort = sortList.find(
+  //       (item) => item.sortProperty === params.sort
+  //     )
+  //
+  //     const sortWithDesc = {
+  //       ...currentSort,
+  //       isDesc: order === 'true',
+  //     } as TSortType
+  //
+  //     dispatch(
+  //       setFilters({
+  //         searchValue: '',
+  //         currentPage: Number(page),
+  //         pageSize: Number(rest.pageSize),
+  //         category: Number(rest.category),
+  //         sort: sortWithDesc || sortList[0],
+  //       })
+  //     )
+  //     isSearch.current = true
+  //   }
+  // }, [])
+  //
+  // useEffect(() => {
+  //   if (!isSearch.current || (isSearch.current && selectedCategory === 0)) {
+  //     getPizzas()
+  //   }
+  //
+  //   isSearch.current = false
+  // }, [
+  //   selectedCategory,
+  //   sortProperty,
+  //   isDesc,
+  //   searchValue,
+  //   currentPage,
+  //   pageSize,
+  // ])
+
+  // ##################### VERSION 2 ############################
+
   useEffect(() => {
     if (isMounted.current) {
+      getPizzas()
       const queryString = qs.stringify(
         {
           category: selectedCategory,
@@ -65,12 +130,7 @@ const PizzasList: React.FC = () => {
         { skipNulls: true }
       )
       navigate(`?${queryString}`)
-    }
-    isMounted.current = true
-  }, [selectedCategory, sortProperty, isDesc, currentPage, pageSize])
-
-  useEffect(() => {
-    if (window.location.search) {
+    } else if (window.location.search) {
       const params = qs.parse(window.location.search.slice(1)) as TSearch
 
       const { page, order, ...rest } = params
@@ -93,16 +153,19 @@ const PizzasList: React.FC = () => {
           sort: sortWithDesc || sortList[0],
         })
       )
-      isSearch.current = true
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!isSearch.current || (isSearch.current && selectedCategory === 0)) {
+      if (
+        Number(rest.category) === 0 &&
+        rest.sort === SortEnum.RATING &&
+        order === 'false' &&
+        Number(page) === 1 &&
+        Number(rest.pageSize) === 4
+      ) {
+        getPizzas()
+      }
+    } else {
       getPizzas()
     }
-
-    isSearch.current = false
+    isMounted.current = true
   }, [
     selectedCategory,
     sortProperty,
